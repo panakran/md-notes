@@ -4,6 +4,8 @@ var ang = require("angular");
 
 ang.module('app', ['ngSanitize','ui.router'])
         .controller('Ctrl', function($scope){
+            
+            $scope.toggle=false;
             $scope.message= 
 `
 Heading
@@ -43,10 +45,7 @@ A [link](http://example.com).
 > Markdown uses email-style > characters for blockquoting.
 
 Inline <abbr title="Hypertext Markup Language">HTML</abbr> is supported.
-`;
-            
-            
-        })
+`;})
         .provider('markdownConverter', function () {
     var opts = {};
     return {
