@@ -23,4 +23,6 @@ require('./node_modules/bootstrap/dist/css/bootstrap.css');
 /**
  * Custom
  */
-require('./app/app');
+require('./app/main');
+require('./app/route');
+require('./app/directives/editor/editor.directive');

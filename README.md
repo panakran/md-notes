@@ -45,7 +45,7 @@ npm start
     - [ ] New md file
     - [ ] Active files (tabs)
 + About page(Instructions/reference/links)
-    - [ ] Instructions
+    - [ ] How to use
     - [ ] Reference
     - [ ] Links
 
