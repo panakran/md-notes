@@ -7,63 +7,17 @@
 
     </head>
     <body ng-app="main" ng-controller="MainCtrl">
-        <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" ng-show="alert.showMessage">{{alert.msg}}</div>
-        <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">md-notes</a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li><a ui-sref="library">Library</a></li>
-                        <li><a ui-sref="activefiles">Active</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Save</a></li>
-                                <li><a href="#">Load</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Import files</a></li>
-                                <li><a href="#">Export files</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="navbar-form navbar-left">
-                        <div class="input-group">
-                            <span ng-init="toggleSearch = true"
-                                  ng-click="toggleSearch = !toggleSearch"
-                                  class="input-group-addon">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-
-                            </span>
-                            <input type="text"
-                                   class="form-control"
-                                   aria-describedby="sizing-addon1"
-                                   placeholder="Search"
-                                   ng-model="selected"
-                                   ng-show="toggleSearch"
-                                   uib-typeahead="file.title for file in files | filter:$viewValue | limitTo:8">
-                        </div>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a ui-sref="about">About</a></li>
-
-                    </ul>
+        <div class="container-fluid">
+             <div ng-include="'./app/templates/nav.template.html'"></div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" ng-show="alert.showMessage">{{alert.msg}}
+                    </div>
                 </div>
             </div>
-        </nav>
-        <div class="container-fluid">
-            <ui-view></ui-view>
+            <div class="container-fluid">
+                <ui-view></ui-view>
+            </div>
         </div>
         <!--<a href="https://github.com/panakran/md-notes.git"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/52760788cde945287fbb584134c4cbc2bc36f904/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>-->
     </body>

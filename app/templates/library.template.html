@@ -1,5 +1,9 @@
-<div >
-    <ul>
-        <li ng-repeat="file in files"><a href="#">{{file.title}}</a></li>
-    </ul>    
+<div class="list-group col-sm-6">
+    <div  ng-repeat="file in files" >
+        <a ui-sref="activefiles" ng-click="addToActives(file)" class="list-group-item list-group-item-action">
+            {{file.title}}
+        <button class="btn btn-danger" ng-click="deleteFile($index)">Delete file
+        </button>
+        </a>
+    </div>
 </div>

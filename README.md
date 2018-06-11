@@ -1,8 +1,6 @@
-# Mark down notes app
+# Mark down notes application
 
 ## installing app
-
----
 
 > clone repo https://github.com/panakran/md-notes.git
 
@@ -36,14 +34,14 @@ npm start
 
 + Application
     - [ ] Import/Export all files(Json format)
-    - [ ] Save/Load all files(local storage)
+    - [x] Save/Load all files(local storage)
 + File browser
     - [ ] Search files
-    - [ ] Delete files
+    - [x] Delete files
 + Active files
-    - [ ] Edit md file (save/discard changes)
+    - [x] Edit md file (save/discard changes)
     - [ ] New md file
-    - [ ] Active files (tabs)
+    - [x] Active files (tabs)
 + About page(Instructions/reference/links)
     - [ ] How to use
     - [ ] Reference
@@ -54,5 +52,6 @@ npm start
 ---
 
 + [ ] Files categories
++ [ ] Export/import md files format(seperate)
 + [ ] Database instead of local storage
 + [ ] User accounts

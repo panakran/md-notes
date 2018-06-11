@@ -1,7 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'angular-ui-bootstrap/dist/ui-bootstrap-csp.css';
 
-angular.module('main', ['ngSanitize', 'ui.router', 'EditorModule', 'ui.bootstrap'])
+angular.module('main', [
+    'ngSanitize',
+    'ui.router',
+    'EditorModule',
+    'ui.bootstrap',
+    'ngStorage',
+    'common.services'])
         .controller("MainCtrl", MainCtrl)
         .provider('markdownConverter', function () {
             var opts = {};
@@ -30,26 +36,64 @@ angular.module('main', ['ngSanitize', 'ui.router', 'EditorModule', 'ui.bootstrap
                     }
                 };
             }])
+        .directive('fileBrowser', function (readFile) {
+            return {
+                template: '<input type="file" style="display: none;" />' +
+                        '<ng-transclude></ng-transclude>',
+                transclude: true,
+                scope: {updatefiles: '&'},
+                link: function (scope, element) {
+                    var fileInput = element.children('input[file]');
+                    fileInput.on('change', function (event) {
+                        var file = event.target.files[0];
+                        readFile(file).then(function (content) {
+                            console.log(content);
+                            scope.updatefiles({file: content});
+                        });
+                    });
+
+                    element.on('click', function () {
+                        fileInput[0].click();
+                    });
+                }
+            };
+        })
         .run(function ($rootScope, $state) {
             $state.go('nav');
         });
 
-function MainCtrl($scope, $timeout) {
-    $scope.files = [];
+MainCtrl.$inject = ['$scope', 'messages', 'localStorage', 'fileManager'];
+function MainCtrl($scope, messages, localStorage, fileManager) {
+    $scope.activeFiles = [];
+    $scope.files = [
+        {message:
+                    `
+# h1 on the way
+`, title: 'example1'},
+        {message:
+                    `
+## h2 on the way
+`, title: 'example2'},
+        {message:
+                    `
+### h3 on the way
+`, title: 'example3'}
+    ];
     $scope.alerts = [];
-    
-    $scope.addAlert = function () {
-        let m = {msg: 'Another alert!', type: 'danger', showMessage:true};
-        $scope.alerts.push(m);
-         $timeout( function(m){
-             $scope.alerts.filter(x=>x.type==='danger').forEach(x=>x.showMessage=false);
-        }, 3000 );
-    };
 
     $scope.closeAlert = function (index) {
         $scope.alerts.splice(index, 1);
     };
 
+    $scope.saveToLocalStorage = function () {
+        localStorage.saveToLocalStorage($scope.files);
+    };
+    $scope.loadFromLocalStorage = function () {
+        $scope.files = localStorage.loadFromLocalStorage();
+    };
+    $scope.exportFile = function () {
+        fileManager.exportFile($scope.files);
+    };
 
     var _selected;
 
@@ -72,14 +116,28 @@ function MainCtrl($scope, $timeout) {
 
     $scope.selected = undefined;
     $scope.addFile = function (file) {
-        console.log("title", file.title)
         if ($scope.files.filter(x => x.title === file.title).length === 0) {
             $scope.files.push(file);
+            messages.addSuccessMessage('File created', $scope.alerts);
         } else {
-            //logger here
-            console.log("already exists")
+            messages.addErrorMessage('Error!', $scope.alerts);
         }
-    }
+    };
+    $scope.updateFiles = function (file) {
+        $scope.files = file;
+    };
+    $scope.deleteFile = function (index) {
+        $scope.files.splice(index, 1);
+    };
+    $scope.addToActives = function (file) {
+        if ($scope.activeFiles.filter(x => x.title === file.title).length === 0) {
+            file["editMode"] = false;
+            $scope.activeFiles.push(file);
+            messages.addSuccessMessage('File created', $scope.alerts);
+        } else {
+            messages.addErrorMessage('Error!', $scope.alerts);
+        }
+    };
 
 }
 
