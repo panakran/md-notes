@@ -13,8 +13,6 @@ require('./node_modules/ngstorage/ngStorage');
 require('lodash');
 require('showdown');
 
-
-
 /**
  * Vendors css
  */

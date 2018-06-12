@@ -1,9 +1,26 @@
-<div class="list-group col-sm-6">
-    <div  ng-repeat="file in vmController.files" >
-        <a ui-sref="activefiles" ng-click="vmController.addToActives(file)" class="list-group-item list-group-item-action">
-            {{file.title}}
-        <button class="btn btn-danger col-sm-offset-6" ng-click="vmController.deleteFile($index)">Delete file
-        </button>
-        </a>
-    </div>
+<div class="col-sm-4">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <h4>
+                        Title
+                    </h4>
+                    </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="file in vmController.files">
+                <td class="col-sm-4">        
+                    <a ui-sref="activefiles" ng-click="vmController.addToActives(file)" class="list-group-item list-group-item-action">
+                        {{file.title}}
+                    </a></td>
+                <td class="col-sm-1">
+                    <button class="btn btn-danger" ng-click="vmController.deleteFile($index)">Delete file
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
