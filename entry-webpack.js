@@ -26,4 +26,5 @@ require('./node_modules/bootstrap/dist/css/bootstrap.css');
 require('./app/main');
 require('./app/route');
 require('./app/directives/editor/editor.directive');
+require('./app/directives/common/common.directives');
 require('./app/services/common.services');

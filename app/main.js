@@ -7,65 +7,29 @@ angular.module('main', [
     'EditorModule',
     'ui.bootstrap',
     'ngStorage',
-    'common.services'])
+    'common.services',
+    'common.directives'])
         .controller("MainCtrl", MainCtrl)
-        .provider('markdownConverter', function () {
-            var opts = {};
-            return {
-                config: function (newOpts) {
-                    opts = newOpts;
-                },
-                $get: function () {
-                    return new Showdown.Converter(opts);
-                }
-            };
-        })
-        .directive('btfMarkdown', ['$sanitize', 'markdownConverter', function ($sanitize, markdownConverter) {
-                return {
-                    restrict: 'AE',
-                    link: function (scope, element, attrs) {
-                        if (attrs.btfMarkdown) {
-                            scope.$watch(attrs.btfMarkdown, function (newVal) {
-                                var html = newVal ? $sanitize(markdownConverter.makeHtml(newVal)) : '';
-                                element.html(html);
-                            });
-                        } else {
-                            var html = $sanitize(markdownConverter.makeHtml(element.text()));
-                            element.html(html);
-                        }
-                    }
-                };
-            }])
-        .directive('fileBrowser', function (readFile) {
-            return {
-                template: '<input type="file" style="display: none;" />' +
-                        '<ng-transclude></ng-transclude>',
-                transclude: true,
-                scope: {updatefiles: '&'},
-                link: function (scope, element) {
-                    var fileInput = element.children('input[file]');
-                    fileInput.on('change', function (event) {
-                        var file = event.target.files[0];
-                        readFile(file).then(function (content) {
-                            console.log(content);
-                            scope.updatefiles({file: content});
-                        });
-                    });
+        .provider('markdownConverter', markdownConverter);
 
-                    element.on('click', function () {
-                        fileInput[0].click();
-                    });
-                }
-            };
-        })
-        .run(function ($rootScope, $state) {
-            $state.go('nav');
-        });
+function markdownConverter() {
+    var opts = {};
+    return {
+        config: function (newOpts) {
+            opts = newOpts;
+        },
+        $get: function () {
+            return new Showdown.Converter(opts);
+        }
+    };
+}
 
-MainCtrl.$inject = ['$scope', 'messages', 'localStorage', 'fileManager'];
-function MainCtrl($scope, messages, localStorage, fileManager) {
-    $scope.activeFiles = [];
-    $scope.files = [
+MainCtrl.$inject = ['messages', 'localStorage', 'fileManager'];
+function MainCtrl(messages, localStorage, fileManager) {
+    let vm = this;
+    vm.activeFiles = [];
+    vm.alerts = [];
+    vm.files = [
         {message:
                     `
 # h1 on the way
@@ -79,65 +43,60 @@ function MainCtrl($scope, messages, localStorage, fileManager) {
 ### h3 on the way
 `, title: 'example3'}
     ];
-    $scope.alerts = [];
 
-    $scope.closeAlert = function (index) {
-        $scope.alerts.splice(index, 1);
-    };
+    /**
+     * public functions
+     */
+    vm.closeAlert = closeAlert;
+    vm.saveToLocalStorage = saveToLocalStorage;
+    vm.loadFromLocalStorage = loadFromLocalStorage;
+    vm.exportFile = exportFile;
+    vm.addFile = addFile;
+    vm.updateFiles = updateFiles;
+    vm.deleteFile = deleteFile;
+    vm.addToActives = addToActives;
 
-    $scope.saveToLocalStorage = function () {
-        localStorage.saveToLocalStorage($scope.files);
-    };
-    $scope.loadFromLocalStorage = function () {
-        $scope.files = localStorage.loadFromLocalStorage();
-    };
-    $scope.exportFile = function () {
-        fileManager.exportFile($scope.files);
-    };
+    function closeAlert(index) {
+        vm.alerts.splice(index, 1);
+    }
 
-    var _selected;
+    function saveToLocalStorage() {
+        localStorage.saveToLocalStorage(vm.files);
+    }
 
-    $scope.selected = undefined;
-    $scope.ngModelOptionsSelected = function (value) {
-        if (arguments.length) {
-            _selected = value;
+    function loadFromLocalStorage() {
+        vm.files = localStorage.loadFromLocalStorage();
+    }
+
+    function exportFile() {
+        fileManager.exportFile(vm.files);
+    }
+    function addFile(file) {
+        if (vm.files.filter(x => x.title === file.title).length === 0) {
+            vm.files.push(file);
+            messages.addSuccessMessage(`New file created`, vm.alerts);
         } else {
-            return _selected;
+            messages.addErrorMessage(`Cannot create file ${file.title}, name already exists`, vm.alerts);
         }
-    };
-
-    $scope.modelOptions = {
-        debounce: {
-            default: 500,
-            blur: 250
-        },
-        getterSetter: true
-    };
-
-    $scope.selected = undefined;
-    $scope.addFile = function (file) {
-        if ($scope.files.filter(x => x.title === file.title).length === 0) {
-            $scope.files.push(file);
-            messages.addSuccessMessage('File created', $scope.alerts);
-        } else {
-            messages.addErrorMessage('Error!', $scope.alerts);
-        }
-    };
-    $scope.updateFiles = function (file) {
-        $scope.files = file;
-    };
-    $scope.deleteFile = function (index) {
-        $scope.files.splice(index, 1);
-    };
-    $scope.addToActives = function (file) {
-        if ($scope.activeFiles.filter(x => x.title === file.title).length === 0) {
+    }
+    function updateFiles(file) {
+        vm.files = file;
+    }
+    function deleteFile(index) {
+        vm.files.splice(index, 1);
+    }
+    function addToActives(file) {
+        if (vm.activeFiles.filter(x => x.title === file.title).length === 0) {
             file["editMode"] = false;
-            $scope.activeFiles.push(file);
-            messages.addSuccessMessage('File created', $scope.alerts);
+            vm.activeFiles.push(file);
+            console.log(vm.alerts);
+            messages.addSuccessMessage(`File ${file.title} added to actives`, vm.alerts);
+            console.log(vm.alerts);
+            
         } else {
-            messages.addErrorMessage('Error!', $scope.alerts);
+            messages.addErrorMessage(`File ${file.title} already to actives`, vm.alerts);
         }
-    };
+    }
 
 }
 

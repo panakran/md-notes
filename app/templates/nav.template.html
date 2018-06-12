@@ -18,15 +18,15 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" ng-click="saveToLocalStorage()">Save</a></li>
-                        <li><a href="#" ng-click="loadFromLocalStorage()">Load</a></li>
+                        <li><a href="#" ng-click="vmController.saveToLocalStorage()">Save</a></li>
+                        <li><a href="#" ng-click="vmController.loadFromLocalStorage()">Load</a></li>
                         <li role="separator" class="divider"></li>
-                        <li file-browser updatefiles="updateFiles(file)">
+                        <li file-browser updatefiles="vmController.updateFiles(file)">
                             <a href="#"  >
                                     Import files
                             </a>
                         </li>
-                        <li><a href="#" ng-click="exportFile()">Export files</a></li>
+                        <li><a href="#" ng-click="vmController.exportFile()">Export files</a></li>
                     </ul>
                 </li>
             </ul>
@@ -40,12 +40,11 @@
                            aria-describedby="sizing-addon1"
                            placeholder="Search"
                            ng-model="selected"
-                           uib-typeahead="file.title for file in files | filter:$viewValue | limitTo:8">
+                           uib-typeahead="file.title for file in vmController.files | filter:$viewValue | limitTo:8">
                 </div>
             </form>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
                 <li><a ui-sref="about">About</a></li>
-
             </ul>
         </div>
 </nav>

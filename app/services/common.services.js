@@ -4,24 +4,28 @@ angular.module('common.services', [])
         .factory('messages', messages)
         .factory('localStorage', localStorage)
         .factory('fileManager', fileManager)
-        .factory('readFile', function ($window, $q) {
-            'use strict';
+        .factory('readFile', readFile);
 
-            var readFile = function (file) {
-                var deferred = $q.defer(),
-                        reader = new $window.FileReader();
+readFile.$inject = ['$window', '$q'];
+function readFile($window, $q) {
+    return {
+        readFile: readFile
+    };
 
-                reader.onload = function (ev) {
-                    var content = ev.target.result;
-                    deferred.resolve(content);
-                };
+    function readFile(file) {
+        let deferred = $q.defer(),
+                reader = new $window.FileReader();
+        reader.onload = (ev) => {
+            let content = ev.target.result;
+            deferred.resolve(content);
+        };
 
-                reader.readAsText(file);
-                return deferred.promise;
-            };
+        reader.readAsText(file);
+        return deferred.promise;
+    }
 
-            return readFile;
-        });
+
+}
 
 
 localStorage.$inject = ['$localStorage'];
@@ -40,6 +44,7 @@ function localStorage($localStorage) {
     }
 
 }
+
 function fileManager() {
     return {
         exportFile: exportFile,
@@ -58,6 +63,7 @@ function fileManager() {
     }
 
 }
+
 messages.$inject = ['$timeout'];
 function messages($timeout) {
     return {
@@ -78,9 +84,9 @@ function messages($timeout) {
     }
 
     function executeCloseDelay(messageString, alerts) {
-        $timeout(function () {
-            alerts.filter(x => x.msg === messageString).forEach(x => x.showMessage = false);
-        }, 2000);
+        $timeout(() => alerts
+                    .filter(x => x.msg === messageString)
+                    .forEach(x => x.showMessage = false), 2000);
     }
 
 }

@@ -44,12 +44,17 @@ function editorController() {
     let vm = this;
     vm.selectTab = selectTab;
     vm.closeFile = closeFile;
+    vm.createFile = createFile;
 
     function closeFile(index) {
         vm.activefile.splice(index, 1);
     }
     function selectTab(file) {
         vm.selectedTab = file;
+    }
+    function createFile() {
+        vm.activefile.push({title: "New file", message: "", editMode: true});
+        vm.selectedTab = vm.activefile[vm.activefile.length+1];
     }
 
     vm.toggle = false;

@@ -1,11 +1,17 @@
 <div class="btn-group" role="group">
-    <a ui-sref="library" class="btn btn-default"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></a>
+    <a ui-sref="library" class="btn btn-primary"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></a>
     <button  type="button"
-             ng-class="!vmController.selectedTab.editMode ? 'btn btn-warning btn-md' : 'btn btn-success btn-md'"
+             ng-class="!vmController.selectedTab.editMode ? 'btn btn-primary btn-md' : 'btn btn-primary btn-md'"
              ng-click="vmController.selectedTab.editMode = !vmController.selectedTab.editMode">
-        <span ng-class="!vmController.selectedTab.editMode ? 'glyphicon glyphicon-pencil' : 'glyphicon glyphicon-ok'" aria-hidden="true"></span>
+        <span ng-show="!vmController.selectedTab.editMode">Edit</span>
+        <span ng-show="vmController.selectedTab.editMode">View</span>
+        <span ng-class="!vmController.selectedTab.editMode ? 'glyphicon glyphicon-pencil' : 'glyphicon glyphicon-eye-open'" aria-hidden="true"></span>
     </button>
-    <button class="btn btn-default" ng-click="vmController.addfile({file: vmController.selectedTab})"> Create file
+    <button class="btn btn-primary" ng-click="vmController.addfile({file: vmController.selectedTab})">Save to library
+        <span class="glyphicon glyphicon-floppy-disk"></span>
+    </button>
+    <button class="btn btn-primary" ng-click="vmController.createFile()"> Create new file
+        <span class="glyphicon glyphicon-asterisk"></span>
     </button>
 </div>
 <uib-tabset active="active">
