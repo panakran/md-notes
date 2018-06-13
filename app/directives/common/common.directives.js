@@ -1,20 +1,4 @@
 angular.module('common.directives', [])
-        .directive('btfMarkdown', ['$sanitize', 'markdownConverter', function ($sanitize, markdownConverter) {
-                return {
-                    restrict: 'AE',
-                    link: function (scope, element, attrs) {
-                        if (attrs.btfMarkdown) {
-                            scope.$watch(attrs.btfMarkdown, function (newVal) {
-                                var html = newVal ? $sanitize(markdownConverter.makeHtml(newVal)) : '';
-                                element.html(html);
-                            });
-                        } else {
-                            var html = $sanitize(markdownConverter.makeHtml(element.text()));
-                            element.html(html);
-                        }
-                    }
-                };
-            }])
         .directive('fileBrowser', function (readFile) {
             return {
                 template: '<input type="file" style="display: none;" />' +

@@ -12,6 +12,9 @@ require('./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls');
 require('./node_modules/ngstorage/ngStorage');
 require('lodash');
 require('showdown');
+require('showdown-highlight');
+require('./node_modules/ng-showdown/dist/ng-showdown');
+require('./node_modules/showdown-github/dist/showdown-github');
 
 /**
  * Vendors css

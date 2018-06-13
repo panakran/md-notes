@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'angular-ui-bootstrap/dist/ui-bootstrap-csp.css';
-
 angular.module('main', [
     'ngSanitize',
     'ui.router',
@@ -8,20 +7,23 @@ angular.module('main', [
     'ui.bootstrap',
     'ngStorage',
     'common.services',
-    'common.directives'])
+    'common.directives', 'ng-showdown'])
         .controller("MainCtrl", MainCtrl)
-        .provider('markdownConverter', markdownConverter);
+        .config(ShowdownConfig);
 
-function markdownConverter() {
-    var opts = {};
-    return {
-        config: function (newOpts) {
-            opts = newOpts;
-        },
-        $get: function () {
-            return new Showdown.Converter(opts);
-        }
-    };
+ShowdownConfig.$inject = ['$showdownProvider'];
+function ShowdownConfig($showdownProvider) {
+    $showdownProvider.setOption('tables', true);
+    $showdownProvider.setOption('tasklists', true);
+    $showdownProvider.setOption('simplifiedAutoLink', true);
+    $showdownProvider.setOption('excludeTrailingPunctuationFromURLs', true);
+    $showdownProvider.setOption('strikethrough', true);
+    $showdownProvider.setOption('ghCodeBlocks', true);
+    $showdownProvider.setOption('smoothLivePreview', true);
+    $showdownProvider.setOption('simpleLineBreaks', true);
+    $showdownProvider.setOption('requireSpaceBeforeHeadingText', true);
+    $showdownProvider.setOption('openLinksInNewWindow', true);
+    Showdown.setFlavor('github');
 }
 
 MainCtrl.$inject = ['messages', 'localStorage', 'fileManager'];
@@ -92,7 +94,7 @@ function MainCtrl(messages, localStorage, fileManager) {
             console.log(vm.alerts);
             messages.addSuccessMessage(`File ${file.title} added to actives`, vm.alerts);
             console.log(vm.alerts);
-            
+
         } else {
             messages.addErrorMessage(`File ${file.title} already to actives`, vm.alerts);
         }
