@@ -1,5 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'angular-ui-bootstrap/dist/ui-bootstrap-csp.css';
+import 'highlight.js/styles/github.css';
+var nav = require("html-loader!.././app/templates/nav.template.html");
+var library= require("html-loader!.././app/templates/library.template.html");
+var activefiles = require("html-loader!.././app/templates/activefiles.template.html");
+var about = require("html-loader!.././app/templates/about.template.html");
+
 angular.module('main', [
     'ngSanitize',
     'ui.router',
@@ -9,10 +15,22 @@ angular.module('main', [
     'common.services',
     'common.directives', 'ng-showdown'])
         .controller("MainCtrl", MainCtrl)
-        .config(ShowdownConfig);
+        .config(ShowdownConfig)
+        .run(function ($templateCache) {
+            $templateCache.put('nav', nav);
+            $templateCache.put('library', library);
+            $templateCache.put('activefiles', activefiles);
+            $templateCache.put('about', about);
+        });
 
 ShowdownConfig.$inject = ['$showdownProvider'];
 function ShowdownConfig($showdownProvider) {
+    let showdown = require("showdown");
+    let hljs = require("highlight.js");
+    let highlightExtension = require('showdown-highlight');
+    showdown.setFlavor('github');
+    showdown.extension('hljs', highlightExtension);
+    hljs.initHighlightingOnLoad();
     $showdownProvider.setOption('tables', true);
     $showdownProvider.setOption('tasklists', true);
     $showdownProvider.setOption('simplifiedAutoLink', true);
@@ -23,7 +41,7 @@ function ShowdownConfig($showdownProvider) {
     $showdownProvider.setOption('simpleLineBreaks', true);
     $showdownProvider.setOption('requireSpaceBeforeHeadingText', true);
     $showdownProvider.setOption('openLinksInNewWindow', true);
-    Showdown.setFlavor('github');
+    $showdownProvider.loadExtension('hljs');
 }
 
 MainCtrl.$inject = ['messages', 'localStorage', 'fileManager'];
@@ -43,6 +61,14 @@ function MainCtrl(messages, localStorage, fileManager) {
         {message:
                     `
 ### h3 on the way
+            
+\`\`\`javascript
+function(r){
+            
+var d=4+r;      
+            
+}
+\`\`\`
 `, title: 'example3'}
     ];
 

@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="./dist/bundle.js"></script>
-
     </head>
     <body ng-app="main" ng-controller="MainCtrl as vmController">
         <style>
@@ -15,7 +14,57 @@
             }
         </style>
         <div class="container-fluid">
-            <div ng-include="'./app/templates/nav.template.html'"></div>
+    <!-- FIXME: THIS IS ABOUT TO BE MOVED -->
+<nav class="navbar navbar-default">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">md-notes</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li><a ui-sref="library">Library</a></li>
+            <li><a ui-sref="activefiles">Active</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" ng-click="vmController.saveToLocalStorage()">Save</a></li>
+                    <li><a href="#" ng-click="vmController.loadFromLocalStorage()">Load</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li file-browser updatefiles="vmController.updateFiles(file)">
+                        <a href="#"  >
+                                Import files
+                        </a>
+                    </li>
+                    <li><a href="#" ng-click="vmController.exportFile()">Export files</a></li>
+                </ul>
+            </li>
+        </ul>
+        <form class="navbar-form navbar-left">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </span>
+                <input type="text"
+                       class="form-control"
+                       aria-describedby="sizing-addon1"
+                       placeholder="Search"
+                       ng-model="selected"
+                       uib-typeahead="file.title for file in vmController.files | filter:$viewValue | limitTo:8">
+            </div>
+        </form>
+        <ul class="nav navbar-nav">
+            <li><a ui-sref="about">About</a></li>
+        </ul>
+    </div>
+</nav>
+            <!--<div ng-include="'nav'"></div>-->
             <div class="container-fluid">
                 <ui-view></ui-view>
             </div>

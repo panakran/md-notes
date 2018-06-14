@@ -3,17 +3,23 @@ angular.module('main')
             var activeFilesState = {
                 name: 'activefiles',
                 url: '/activefiles',
-                templateUrl: "./app/templates/activefiles.template.html"
+                templateProvider: function ($templateCache) {
+                    return $templateCache.get('activefiles');
+                }
             };
             var aboutState = {
                 name: 'about',
                 url: '/about',
-                templateUrl: "./app/templates/about.template.html"
+                templateProvider: function ($templateCache) {
+                    return $templateCache.get('about');
+                }
             };
             var libraryState = {
                 name: 'library',
                 url: '/library',
-                templateUrl: "./app/templates/library.template.html"
+                templateProvider: function ($templateCache) {
+                    return $templateCache.get('library');
+                }
             };
 
             $stateProvider.state(activeFilesState);
