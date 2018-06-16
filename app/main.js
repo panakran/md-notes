@@ -1,10 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'angular-ui-bootstrap/dist/ui-bootstrap-csp.css';
 import 'highlight.js/styles/github.css';
-var nav = require("html-loader!.././app/templates/nav.template.html");
-var library= require("html-loader!.././app/templates/library.template.html");
-var activefiles = require("html-loader!.././app/templates/activefiles.template.html");
-var about = require("html-loader!.././app/templates/about.template.html");
 
 angular.module('main', [
     'ngSanitize',
@@ -13,65 +9,15 @@ angular.module('main', [
     'ui.bootstrap',
     'ngStorage',
     'common.services',
-    'common.directives', 'ng-showdown'])
-        .controller("MainCtrl", MainCtrl)
-        .config(ShowdownConfig)
-        .run(function ($templateCache) {
-            $templateCache.put('nav', nav);
-            $templateCache.put('library', library);
-            $templateCache.put('activefiles', activefiles);
-            $templateCache.put('about', about);
-        });
-
-ShowdownConfig.$inject = ['$showdownProvider'];
-function ShowdownConfig($showdownProvider) {
-    let showdown = require("showdown");
-    let hljs = require("highlight.js");
-    let highlightExtension = require('showdown-highlight');
-    showdown.setFlavor('github');
-    showdown.extension('hljs', highlightExtension);
-    hljs.initHighlightingOnLoad();
-    $showdownProvider.setOption('tables', true);
-    $showdownProvider.setOption('tasklists', true);
-    $showdownProvider.setOption('simplifiedAutoLink', true);
-    $showdownProvider.setOption('excludeTrailingPunctuationFromURLs', true);
-    $showdownProvider.setOption('strikethrough', true);
-    $showdownProvider.setOption('ghCodeBlocks', true);
-    $showdownProvider.setOption('smoothLivePreview', true);
-    $showdownProvider.setOption('simpleLineBreaks', true);
-    $showdownProvider.setOption('requireSpaceBeforeHeadingText', true);
-    $showdownProvider.setOption('openLinksInNewWindow', true);
-    $showdownProvider.loadExtension('hljs');
-}
+    'common.directives',
+    'ng-showdown'])
+        .controller("MainCtrl", MainCtrl);
 
 MainCtrl.$inject = ['messages', 'localStorage', 'fileManager'];
 function MainCtrl(messages, localStorage, fileManager) {
     let vm = this;
     vm.activeFiles = [];
     vm.alerts = [];
-    vm.files = [
-        {message:
-                    `
-# h1 on the way
-`, title: 'example1'},
-        {message:
-                    `
-## h2 on the way
-`, title: 'example2'},
-        {message:
-                    `
-### h3 on the way
-            
-\`\`\`javascript
-function(r){
-            
-var d=4+r;      
-            
-}
-\`\`\`
-`, title: 'example3'}
-    ];
-
     /**
      * public functions
      */
@@ -83,6 +29,16 @@ var d=4+r;
     vm.updateFiles = updateFiles;
     vm.deleteFile = deleteFile;
     vm.addToActives = addToActives;
+
+    loadFromLocalStorage();
+    if (vm.files == null) {
+        vm.files = [
+            {message:
+                        `
+# h1 on the way
+`, title: 'example1'}
+        ];
+    }
 
     function closeAlert(index) {
         vm.alerts.splice(index, 1);
@@ -100,6 +56,7 @@ var d=4+r;
         fileManager.exportFile(vm.files);
     }
     function addFile(file) {
+        console.log(file)
         if (vm.files.filter(x => x.title === file.title).length === 0) {
             vm.files.push(file);
             messages.addSuccessMessage(`New file created`, vm.alerts);
@@ -115,11 +72,10 @@ var d=4+r;
     }
     function addToActives(file) {
         if (vm.activeFiles.filter(x => x.title === file.title).length === 0) {
-            file["editMode"] = false;
-            vm.activeFiles.push(file);
-            console.log(vm.alerts);
+            let newActiveFile = angular.copy(file);
+            newActiveFile["editMode"] = false;
+            vm.activeFiles.push(newActiveFile);
             messages.addSuccessMessage(`File ${file.title} added to actives`, vm.alerts);
-            console.log(vm.alerts);
 
         } else {
             messages.addErrorMessage(`File ${file.title} already to actives`, vm.alerts);

@@ -1,6 +1,6 @@
 let template = require('raw-loader!./editor.template.html');
 
-angular.module('EditorModule', [])
+angular.module('EditorModule', ['editor.service'])
         .directive('editor', editor)
         .controller('editorController', editorController);
 
@@ -39,22 +39,22 @@ function postLink(scope, elem, attr, ctrl) {
 /**
  * Controller function
  */
-editorController.$inject = [];
-function editorController() {
+editorController.$inject = ['editor'];
+function editorController(editor) {
     let vm = this;
     vm.selectTab = selectTab;
     vm.closeFile = closeFile;
     vm.createFile = createFile;
 
     function closeFile(index) {
-        vm.activefile.splice(index, 1);
+        editor.closeFile(vm.activefile, index);
     }
     function selectTab(file) {
         vm.selectedTab = file;
     }
     function createFile() {
         vm.activefile.push({title: "New file", message: "", editMode: true});
-        vm.selectedTab = vm.activefile[vm.activefile.length+1];
+        vm.selectedTab = vm.activefile[vm.activefile.length + 1];
     }
 
     vm.toggle = false;

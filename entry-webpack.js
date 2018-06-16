@@ -29,6 +29,9 @@ require('./node_modules/highlight.js/styles/github.css');
  */
 require('./app/main');
 require('./app/route');
+require('./app/showdown.config');
+require('./app/templateCache');
 require('./app/directives/editor/editor.directive');
+require('./app/directives/editor/editor.service');
 require('./app/directives/common/common.directives');
 require('./app/services/common.services');
