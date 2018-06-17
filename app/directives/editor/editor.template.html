@@ -7,9 +7,11 @@
         <span ng-show="!vmController.selectedTab.editMode">Edit</span>
         <span ng-show="vmController.selectedTab.editMode">View</span>
     </button>
-    <button class="btn btn-primary" ng-click="vmController.addfile({file: vmController.selectedTab})">
+    <button class="btn btn-primary"
+            ng-click="vmController.saveFile(vmController.selectedTab)"
+            ng-disabled="vmController.activefile[vmController.activefile.indexOf(vmController.selectedTab)].pristine.$pristine">
         <span class="glyphicon glyphicon-floppy-disk"></span>
-        Save to library
+        Save
     </button>
     <button class="btn btn-primary" ng-click="vmController.createFile()">
         <span class="glyphicon glyphicon-asterisk"></span>
@@ -17,28 +19,32 @@
     </button>
 </div>
 <uib-tabset active="active">
-    <uib-tab ng-repeat="file in vmController.activefile" index="$index" select="vmController.selectTab(file)">
+    <uib-tab ng-repeat="file in vmController.activefile" index="$index" select="vmController.selectTab(file)" ng-if="file.active">
         <uib-tab-heading>
-            {{file.title}}
-            <span  ng-click="vmController.closeFile($index)"> X
+            <span>
+                {{file.title}}
+            </span>
+            <span ng-class="file.pristine.$pristine ? '' : 'btn-warning'" ng-click="vmController.closeFile($index)"> X
             </span>
         </uib-tab-heading>
         <div>
-            <h2>File name:
-                <input ng-show="file.editMode" type="text" ng-model="file.title"/>
-                <span ng-show="!file.editMode">{{file.title}}
-                </span>
-            </h2>
-            <hr>
-            <div class="row">
-                <div class="col-sm-6" ng-show="file.editMode">
-                    <textarea ng-model="file.message" style="width: 100%; height: 100vh;">
-                    </textarea>
+            <form name="file.pristine" validate>
+                <h2>File name:
+                    <input ng-show="file.editMode" type="text" ng-model="file.title"/>
+                    <span ng-show="!file.editMode">{{file.title}}
+                    </span>
+                </h2>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6" ng-show="file.editMode">
+                        <textarea ng-model="file.message" style="width: 100%; height: 100vh;" required>
+                        </textarea>
+                    </div>
+                    <div ng-class="file.editMode ? 'col-sm-6' : 'col-sm-offset-2 col-sm-8'">
+                        <div markdown-to-html="file.message"></div>
+                    </div>
                 </div>
-                <div ng-class="file.editMode ? 'col-sm-6' : 'col-sm-offset-2 col-sm-8'">
-                    <div markdown-to-html="file.message"></div>
-                </div>
-            </div>
+            </form>
         </div>
     </uib-tab>
 </uib-tabset>

@@ -4,19 +4,14 @@ angular.module('editor.service', [])
 function editor() {
     return {
         closeFile: closeFile,
-        selectTab: selectTab,
+        selectTab: selectTab
 //        createFile: createFile
     };
 
-    function closeFile(activeFile, index) {
-        activeFile.splice(index, 1);
+    function closeFile(activeFile) {
+        activeFile.active = false;
     }
     function selectTab(selectedTab, file) {
         selectedTab = file;
     }
-    //FIXME: to be implemented
-//    function createFile() {
-//        vm.activefile.push({title: "New file", message: "", editMode: true});
-//        vm.selectedTab = vm.activefile[vm.activefile.length + 1];
-//    }
 }

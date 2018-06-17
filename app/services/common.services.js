@@ -36,7 +36,7 @@ function localStorage($localStorage) {
     };
 
     function saveToLocalStorage(files) {
-        $localStorage.files = files;
+        $localStorage.files = angular.copy(files);
     }
 
     function loadFromLocalStorage() {

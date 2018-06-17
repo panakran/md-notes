@@ -1,45 +1,155 @@
-<h2>Markdown syntax
-</h2>
+<div class="wiki-content col-sm-6 col-sm-offset-3">
+    <h2 id="Markdownsyntaxguide-Markdownsyntax">Markdown syntax</h2>
 
-<div class="col-sm-6">
-    <pre>
-# H1
-## H2
-### H3
-#### H4
-##### H5
-###### H6
+    <h3 id="Markdownsyntaxguide-Headings">Headings</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none">
+<code class=" language-none"># This is an H1
+## This is an H2
+###### This is an H6
 
-Alternatively, for H1 and H2, an underline-ish style:
+This is also an H1
+==================
 
-Alt-H1
-======
+This is also an H2
+------------------
+</code>
+        </pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Paragraphs">Paragraphs</h3>
+    <p>Paragraphs are separated by empty lines. To create a new paragraph, press &lt;return&gt; twice.</p> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">Paragraph 1
 
-Alt-H2
-------
+Paragraph 2</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Characterstyles">Character styles</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">*Italic characters* 
+_Italic characters_
+**bold characters**
+__bold characters__
+~~strikethrough text~~</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Unorderedlist">Unordered list</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">*  Item 1
+*  Item 2
+*  Item 3
+    *  Item 3a
+    *  Item 3b
+    *  Item 3c</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Orderedlist">Ordered list</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">1.  Step 1
+2.  Step 2
+3.  Step 3
+    1.  Step 3.1
+    2.  Step 3.2
+    3.  Step 3.3</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Listinlist">List in list</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">1.  Step 1
+2.  Step 2
+3.  Step 3
+    *  Item 3a
+	*  Item 3b
+	*  Item 3c</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Quotesorcitations">Quotes or citations</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">Introducing my quote:
 
-Emphasis, aka italics, with *asterisks* or _underscores_.
+&gt; Neque porro quisquam est qui 
+&gt; dolorem ipsum quia dolor sit amet, 
+&gt; consectetur, adipisci velit...</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Inlinecodecharacters">Inline code characters</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">Use the backtick to refer to a `function()`.
+ 
+There is a literal ``backtick (`)`` here.</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Codeblocks">Code blocks</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-markup"><code class=" language-markup">Indent every line of the block by at least 4 spaces.
 
-Strong emphasis, aka bold, with **asterisks** or __underscores__.
+This is a normal paragraph:
 
-Combined emphasis with **asterisks and _underscores_**.
+    This is a code block.
+    With multiple lines.
 
-Strikethrough uses two tildes. ~~Scratch this.~~
-    </pre>
-</div>
-<div class="col-sm-6">
-<h1>H1</h1>
-<h2>H2</h2>
-<h3>H3</h3>
-<h4>H4</h4>
-<h5>H5</h5>
-<h6>H6</h6>
-Alternatively, for H1 and H2, an underline-ish style:
+Alternatively, you can use 3 backtick quote marks before and after the block, like this:
 
-<h1>Alt-H1</h1>
-<h2>Alt-H2</h2>
-    <p>Emphasis, aka italics, with <em>asterisks</em> or <em>underscores</em>.</p>
-    <p>Strong emphasis, aka bold, with <strong>asterisks</strong> or <strong>underscores</strong>.</p>
-    <p>Combined emphasis with <strong>asterisks and <em>underscores</em></strong>.</p>
-    <p>Strikethrough uses two tildes. <del>Scratch this.</del></p>
+```
+This is a code block
+```
+
+To add syntax highlighting to a code block, add the name of the language immediately
+after the backticks:&nbsp;
+
+```javascript
+var oldUnload = window.onbeforeunload;
+window.onbeforeunload = function() {
+    saveCoverage();
+    if (oldUnload) {
+        return oldUnload.apply(this, arguments);
+    }
+};
+```
+</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Linkstoexternalwebsites">Links to external websites</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">This is [an example](http://www.example.com/) inline link.
+
+[This link](http://example.com/ "Title") has a title attribute.
+
+Links are also auto-detected in text: http://example.com/</code></pre> 
+    </div> 
+    <h2 id="Markdownsyntaxguide-Images"><span>Images</span></h2>
+    <p>Inline image syntax looks like this:</p> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">![Alt text](/path/to/image.jpg)
+![Alt text](/path/to/image.png "Optional title attribute")
+![Alt text](/url/to/image.jpg)</code></pre> 
+    </div> 
+    <p>For example:</p> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">...
+![Mockup for feature A](http://monosnap.com/image/bOcxxxxLGF.png)
+...</code></pre> 
+    </div> 
+    <p>Reference image links look like this:</p> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">![Alt text][id]</code></pre> 
+    </div> 
+    <p>where 'id' is the name of a previously defined image reference, using syntax similar to link references:</p> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">[id]: url/to/image.jpg "Optional title attribute"</code></pre> 
+    </div> 
+    <p>For example:</p> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">...
+&lt;--Collected image definitions--&gt;
+[MockupA]: http://monosnap.com/image/bOcxxxxLGF.png "Screenshot of Feature A mockup" 
+...
+&lt;!--Using an image reference--&gt;
+![Mockup for feature A][MockupA]
+...</code></pre> 
+    </div> 
+    <h3 id="Markdownsyntaxguide-Tables">Tables</h3> 
+    <div class="code-block conf-macro output-block" data-hasbody="true" data-macro-name="sp-macrooverride-plaintextbody-block"> 
+        <pre class=" language-none"><code class=" language-none">| Day     | Meal    | Price |
+| --------|---------|-------|
+| Monday  | pasta   | $6    |
+| Tuesday | chicken | $8    |</code></pre> 
+    </div> 
+    <h2 id="Markdownsyntaxguide-Backslashescapes">Backslash escapes</h2>
+    <p>Certain characters can be escaped with a preceding backslash to preserve the literal display of a character instead of its special Markdown meaning. This applies to the following characters:</p>
+    <p><code>\ &nbsp;backslash</code> <br> <code>` &nbsp;backtick</code> <br> <code>* &nbsp;asterisk</code> <br> <code>_ &nbsp;underscore</code> <br> <code>{} curly braces</code> <br> <code>[] square brackets</code> <br> <code>() parentheses</code> <br> <code># &nbsp;hash mark</code> <br> <code>&gt; &nbsp;greater than</code> <br> <code>+ &nbsp;plus sign</code> <br> <code>- &nbsp;minus sign (hyphen)</code> <br> <code>. &nbsp;dot</code> <br> <code>! &nbsp;exclamation mark</code></p>
+    <h2 id="Markdownsyntaxguide-readmeREADMEfiles"><span class="confluence-anchor-link conf-macro output-inline" data-hasbody="false" data-macro-name="anchor" id="Markdownsyntaxguide-readme"> </span>README files</h2>
+    <p>If your repository contains a&nbsp;<code>README.md</code> file at the root level, Bitbucket Server displays its contents on the repository's&nbsp;<strong>Source</strong>&nbsp;page&nbsp;if the file&nbsp;has the .md extension. The file can contain<a data-macro-name="sp-richtextbody-link" href="#Markdownsyntaxguide-markup" class="conf-macro output-inline" data-hasbody="true"> <span class="external-link">Markdown</span> </a>and a restricted set of HTML tags.</p> 
 </div>

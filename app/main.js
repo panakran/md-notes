@@ -13,8 +13,8 @@ angular.module('main', [
     'ng-showdown'])
         .controller("MainCtrl", MainCtrl);
 
-MainCtrl.$inject = ['messages', 'localStorage', 'fileManager'];
-function MainCtrl(messages, localStorage, fileManager) {
+MainCtrl.$inject = ['messages', 'localStorage', 'fileManager', '$window'];
+function MainCtrl(messages, localStorage, fileManager, $window) {
     let vm = this;
     vm.activeFiles = [];
     vm.alerts = [];
@@ -35,8 +35,8 @@ function MainCtrl(messages, localStorage, fileManager) {
         vm.files = [
             {message:
                         `
-# h1 on the way
-`, title: 'example1'}
+# heading
+`, title: 'example1', active: false, editMode: false}
         ];
     }
 
@@ -56,30 +56,31 @@ function MainCtrl(messages, localStorage, fileManager) {
         fileManager.exportFile(vm.files);
     }
     function addFile(file) {
-        console.log(file)
-        if (vm.files.filter(x => x.title === file.title).length === 0) {
-            vm.files.push(file);
-            messages.addSuccessMessage(`New file created`, vm.alerts);
+        console.log("-", vm.files);
+        console.log("+", file);
+        if (vm.files.filter(x => x.title === file.title).length > 0) {
+            vm.files.filter(x => x.title === file.title)[0].title = angular.copy(file).title;
+            vm.files.filter(x => x.title === file.title)[0].message = angular.copy(file).message;
+            messages.addSuccessMessage(`${file.title} saved`, vm.alerts);
         } else {
-            messages.addErrorMessage(`Cannot create file ${file.title}, name already exists`, vm.alerts);
+            vm.files.push(file);
+            messages.addSuccessMessage(`${file.title} created`, vm.alerts);
+//            messages.addErrorMessage(`Cannot save file ${file.title}`, vm.alerts);
         }
     }
     function updateFiles(file) {
         vm.files = file;
     }
     function deleteFile(index) {
-        vm.files.splice(index, 1);
+        let confirm = $window.confirm('Are you sure you want to delete this file?');
+        if (confirm) {
+            messages.addSuccessMessage(`File ${vm.files[index].title} deleted`, vm.alerts);
+            vm.files.splice(index, 1);
+        }
     }
     function addToActives(file) {
-        if (vm.activeFiles.filter(x => x.title === file.title).length === 0) {
-            let newActiveFile = angular.copy(file);
-            newActiveFile["editMode"] = false;
-            vm.activeFiles.push(newActiveFile);
-            messages.addSuccessMessage(`File ${file.title} added to actives`, vm.alerts);
-
-        } else {
-            messages.addErrorMessage(`File ${file.title} already to actives`, vm.alerts);
-        }
+        file.active = true;
+        messages.addSuccessMessage(`File ${file.title} added to actives`, vm.alerts);
     }
 
 }

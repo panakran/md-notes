@@ -4,9 +4,9 @@
             <tr>
                 <th>
                     <h4>
-                        Title
+                        File name
                     </h4>
-                    </th>
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -17,7 +17,8 @@
                         {{file.title}}
                     </a></td>
                 <td class="col-sm-1">
-                    <button class="btn btn-danger" ng-click="vmController.deleteFile($index)">Delete file
+                    <button class="btn btn-lg btn-danger" ng-click="vmController.deleteFile($index)">
+                        <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </td>
             </tr>

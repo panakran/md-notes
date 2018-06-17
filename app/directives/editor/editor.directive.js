@@ -45,17 +45,21 @@ function editorController(editor) {
     vm.selectTab = selectTab;
     vm.closeFile = closeFile;
     vm.createFile = createFile;
+    vm.saveFile = saveFile;
+    vm.toggle = false;
 
     function closeFile(index) {
-        editor.closeFile(vm.activefile, index);
+        editor.closeFile(vm.activefile[index]);
+    }
+    function saveFile(fileTosave) {
+        vm.addfile({file: fileTosave});
     }
     function selectTab(file) {
         vm.selectedTab = file;
     }
     function createFile() {
-        vm.activefile.push({title: "New file", message: "", editMode: true});
-        vm.selectedTab = vm.activefile[vm.activefile.length + 1];
+        vm.activefile.push({title: "New file", message: "", editMode: true, active:true});
+//        vm.selectedTab = vm.activefile[vm.activefile.length + 1];
     }
 
-    vm.toggle = false;
 }
