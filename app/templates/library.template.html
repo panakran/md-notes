@@ -1,27 +1,19 @@
-<div class="col-sm-4">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    <h4>
-                        File name
-                    </h4>
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="file in vmController.files">
-                <td class="col-sm-4">        
-                    <a ui-sref="activefiles" ng-click="vmController.addToActives(file)" class="list-group-item list-group-item-action">
-                        {{file.title}}
-                    </a></td>
-                <td class="col-sm-1">
-                    <button class="btn btn-lg btn-danger" ng-click="vmController.deleteFile($index)">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="row">
+    <div ng-show="vmController.toggleFilePanel" class="col-md-2 span6">
+        <h3>Files
+        </h3>
+        <div class="list-group">
+            <a href="" class="list-group-item clearfix" ng-repeat="file in vmController.files" ng-click="vmController.addToActives(file)">
+                 {{file.title}}
+                <span class="pull-right">
+                    <span class="btn btn-xs btn-danger" ng-click="vmController.deleteFile($index)">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </span>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div ng-class="vmController.toggleFilePanel ? 'col-lg-10' : 'col-lg-12'">
+        <editor addfile="vmController.addFile(file)" activefile="vmController.files" togglefilepanel="vmController.toggleFilePanel"></editor>
+    </div>
 </div>

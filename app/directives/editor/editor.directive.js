@@ -12,7 +12,7 @@ function editor() {
         controllerAs: "vmController",
         bindToController: true,
         restrict: 'E',
-        scope: {addfile: '&', activefile: '<'},
+        scope: {addfile: '&', activefile: '<', togglefilepanel:'='},
         link: linkFunction()
     };
 }
