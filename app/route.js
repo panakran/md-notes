@@ -1,20 +1,33 @@
+/**
+ * Router configuration
+ */
 angular.module('main')
-        .config(function ($stateProvider) {
-            var aboutState = {
+        .config(function ($stateProvider, $urlRouterProvider) {
+
+            /**
+             * Default path
+             */
+            $urlRouterProvider.otherwise("library");
+
+            /**
+             * State definitions
+             */
+            let aboutState = {
                 name: 'about',
                 url: '/about',
-                templateProvider: function ($templateCache) {
-                    return $templateCache.get('about');
-                }
+                templateProvider: ($templateCache) => $templateCache.get('about')
             };
-            var libraryState = {
+            let libraryState = {
                 name: 'library',
                 url: '/library',
-                templateProvider: function ($templateCache) {
-                    return $templateCache.get('library');
-                }
+                templateProvider: ($templateCache) => $templateCache.get('library')
             };
-
+            let shareState = {
+                name: 'share',
+                url: '/share',
+                templateProvider: ($templateCache) => $templateCache.get('share')
+            };
             $stateProvider.state(aboutState);
             $stateProvider.state(libraryState);
+            $stateProvider.state(shareState);
         });

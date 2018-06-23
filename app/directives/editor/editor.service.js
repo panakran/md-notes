@@ -1,11 +1,16 @@
+/**
+ * deticated services for editor directive
+ */
 angular.module('editor.service', [])
         .factory('editor', editor);
-
+/**
+ * services close file and select tab
+ * @return {editor.editor.serviceAnonym$0}
+ */
 function editor() {
     return {
         closeFile: closeFile,
         selectTab: selectTab
-//        createFile: createFile
     };
 
     function closeFile(activeFile) {

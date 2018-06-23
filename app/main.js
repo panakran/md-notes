@@ -1,7 +1,14 @@
+/**
+ * Main module
+ * import css
+ */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'angular-ui-bootstrap/dist/ui-bootstrap-csp.css';
 import 'highlight.js/styles/github.css';
 
+/**
+ * Includes modules
+ */
 angular.module('main', [
     'ngSanitize',
     'ui.router',
@@ -13,11 +20,19 @@ angular.module('main', [
     'ng-showdown'])
         .controller("MainCtrl", MainCtrl);
 
-MainCtrl.$inject = ['messages', 'localStorage', 'fileManager', '$window'];
-function MainCtrl(messages, localStorage, fileManager, $window) {
+/**
+ * Controller definition
+ */
+MainCtrl.$inject = ['messages', 'localStorage', 'fileManager', '$window', '$state', '$stateParams'];
+function MainCtrl(messages, localStorage, fileManager, $window, $state, $stateParams) {
     let vm = this;
+    
+    /**
+     * public variables
+     */
     vm.activeFiles = [];
     vm.alerts = [];
+    
     /**
      * public functions
      */
@@ -30,6 +45,9 @@ function MainCtrl(messages, localStorage, fileManager, $window) {
     vm.deleteFile = deleteFile;
     vm.addToActives = addToActives;
 
+    /**
+     * Load from local storage on start up
+     */
     loadFromLocalStorage();
     if (vm.files == null) {
         vm.files = [
@@ -40,21 +58,48 @@ function MainCtrl(messages, localStorage, fileManager, $window) {
         ];
     }
 
+    /**
+     * Close alert method
+     * @param {type} index
+     * @return {undefined}
+     */
     function closeAlert(index) {
         vm.alerts.splice(index, 1);
     }
 
+    /**
+     * saveToLocalStorage method (saves state throught service)
+     * @param {type} index
+     * @return {undefined}
+     */
     function saveToLocalStorage() {
         localStorage.saveToLocalStorage(vm.files);
     }
-
+    
+    /**
+     * loadFromLocalStorage method (loads state throught service)
+     * @param {type} index
+     * @return {undefined}
+     */
     function loadFromLocalStorage() {
         vm.files = localStorage.loadFromLocalStorage();
     }
-
+    
+    /**
+     * exportFile method (exports a Json with the model throught service)
+     * @param {type} index
+     * @return {undefined}
+     */
     function exportFile() {
+        console.log(vm.files)
         fileManager.exportFile(vm.files);
     }
+    
+    /**
+     * addFile method NOT USED
+     * @param {type} file
+     * @return {undefined}
+     */
     function addFile(file) {
         console.log("-", vm.files);
         console.log("+", file);
@@ -65,12 +110,23 @@ function MainCtrl(messages, localStorage, fileManager, $window) {
         } else {
             vm.files.push(file);
             messages.addSuccessMessage(`${file.title} created`, vm.alerts);
-//            messages.addErrorMessage(`Cannot save file ${file.title}`, vm.alerts);
         }
+        saveToLocalStorage();
     }
+    /**
+     * updateFiles method NOT USED
+     * @param {type} file
+     * @return {undefined}
+     */
     function updateFiles(file) {
         vm.files = file;
     }
+    
+    /**
+     * deleteFile method (removes file from model array on confirm and adds a message)
+     * @param {type} file
+     * @return {undefined}
+     */
     function deleteFile(index) {
         let confirm = $window.confirm('Are you sure you want to delete this file?');
         if (confirm) {
@@ -78,6 +134,12 @@ function MainCtrl(messages, localStorage, fileManager, $window) {
             vm.files.splice(index, 1);
         }
     }
+    
+    /**
+     * addToActives method (activates file by moving to a tab and adds a message)
+     * @param {type} file
+     * @return {undefined}
+     */
     function addToActives(file) {
         file.active = true;
         messages.addSuccessMessage(`File ${file.title} added to actives`, vm.alerts);

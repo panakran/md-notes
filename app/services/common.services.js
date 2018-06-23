@@ -1,3 +1,6 @@
+/**
+ * Common services module 
+ */
 angular.module('common.services', [])
         .factory('lodash', lodash)
         .factory('fetchConst', fetchConst)
@@ -6,6 +9,9 @@ angular.module('common.services', [])
         .factory('fileManager', fileManager)
         .factory('readFile', readFile);
 
+/**
+ * readFile service includes read file
+ */
 readFile.$inject = ['$window', '$q'];
 function readFile($window, $q) {
     return {
@@ -27,7 +33,9 @@ function readFile($window, $q) {
 
 }
 
-
+/**
+ * localStorage service save and load to local service
+ */
 localStorage.$inject = ['$localStorage'];
 function localStorage($localStorage) {
     return {
@@ -45,6 +53,9 @@ function localStorage($localStorage) {
 
 }
 
+/**
+ * fileManager service for exporting and importing file operations
+ */
 function fileManager() {
     return {
         exportFile: exportFile,
@@ -64,6 +75,9 @@ function fileManager() {
 
 }
 
+/**
+ * messages service includes the add succes add error message and private execute delay for adding times to messages when shown
+ */
 messages.$inject = ['$timeout'];
 function messages($timeout) {
     return {
@@ -83,6 +97,12 @@ function messages($timeout) {
         executeCloseDelay(messageString, alerts);
     }
 
+    /**
+     * Private executed in this service only
+     * @param {type} messageString
+     * @param {type} alerts
+     * @return {undefined}
+     */
     function executeCloseDelay(messageString, alerts) {
         $timeout(() => alerts
                     .filter(x => x.msg === messageString)
@@ -91,9 +111,16 @@ function messages($timeout) {
 
 }
 
+/**
+ * Lodash service calling injecting lodash and calling lodash. instead of _.
+ */
 function lodash() {
     return _;
 }
+
+/**
+ * fetch constants service
+ */
 function fetchConst() {
     return {
         //my functionss

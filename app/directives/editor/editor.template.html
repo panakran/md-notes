@@ -11,16 +11,22 @@
         <span ng-show="vmController.selectedTab.editMode">Edit</span>
         <span ng-show="!vmController.selectedTab.editMode">View</span>
     </button>
-    <button class="btn btn-primary"
+    <!--OUT FOR NOW-->
+<!--    <button class="btn btn-primary"
             ng-click="vmController.saveFile(vmController.selectedTab)"
             ng-disabled="vmController.activefile[vmController.activefile.indexOf(vmController.selectedTab)].pristine.$pristine">
         <span class="glyphicon glyphicon-floppy-disk"></span>
         Save
-    </button>
+    </button>-->
     <button class="btn btn-primary" ng-click="vmController.createFile()">
         <span class="glyphicon glyphicon-asterisk"></span>
-        Create new file
+        New
     </button>
+    <!--OUT FOR NOW-->
+<!--    <button class="btn btn-primary" ng-click="vmController.shareFile()">
+        <span class="glyphicon glyphicon-share-alt"></span>
+       Share
+    </button>-->
 </div>
 <uib-tabset active="active">
     <uib-tab ng-repeat="file in vmController.activefile" index="$index" select="vmController.selectTab(file)" ng-if="file.active">
@@ -28,11 +34,13 @@
             <span>
                 {{file.title}}
             </span>
-            <span ng-class="file.pristine.$pristine ? '' : 'btn-warning'" ng-click="vmController.closeFile($index)"> X
+            <!--ng-class="file.pristine.$pristine ? '' : 'btn-warning'"-->
+            <span ng-click="vmController.closeFile($index)"> X
             </span>
         </uib-tab-heading>
         <div>
-            <form name="file.pristine" validate>
+             <!--name="file.pristine" validate-->
+            <form>
                 <h2>File name:
                     <input ng-show="file.editMode" type="text" ng-model="file.title"/>
                     <span ng-show="!file.editMode">{{file.title}}
