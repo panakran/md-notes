@@ -5,13 +5,13 @@ const nav = require("html-loader!.././app/templates/nav.template.html");
 const library = require("html-loader!.././app/templates/library.template.html");
 const about = require("html-loader!.././app/templates/about.template.html");
 const share = require("html-loader!.././app/templates/share.template.html");
+const app = require("html-loader!.././app/templates/app.template.html");
 
 /**
  * Set component nvbar nad load templates to template cache
  * @type {type}
  */
 angular.module('main')
-//        .component('navbar', {template: nav})
         .run(TemplateCacheConfig);
 
 /**
@@ -23,4 +23,5 @@ function TemplateCacheConfig($templateCache) {
     $templateCache.put('library', library);
     $templateCache.put('about', about);
     $templateCache.put('share', share);
+    $templateCache.put('app', app);
 }

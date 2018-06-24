@@ -27,6 +27,7 @@ require('./node_modules/highlight.js/styles/github.css');
 /**
  * Custom
  */
+require('./app/app');
 require('./app/main');
 require('./app/route');
 require('./app/showdown.config');
